@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dutch & EU Data Sovereignty News Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #003399;
+            --secondary-blue: #0066cc;
+            --light-blue: #e6f2ff;
+            --eu-yellow: #ffcc00;
+            --text-dark: #1a1a1a;
+            --text-gray: #666;
+            --border-color: #ddd;
+            --hover-bg: #f5f5f5;
+            --success-green: #28a745;
+            --alert-red: #dc3545;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        h1 {
+            color: var(--primary-blue);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .flag-icons {
+            display: flex;
+            gap: 8px;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+
+        .last-updated {
+            background: var(--light-blue);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+
+        /* Search & Filters */
+        .controls {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+            font-size: 1.2rem;
+        }
+
+        .filter-section {
+            margin-top: 20px;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--border-color);
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .category-btn:hover {
+            border-color: var(--secondary-blue);
+            background: var(--light-blue);
+        }
+
+        .category-btn.active {
+            background: var(--secondary-blue);
+            color: white;
+            border-color: var(--secondary-blue);
+        }
+
+        /* Main Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* News Feed */
+        .news-feed {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .feed-title {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+
+        .refresh-btn {
+            padding: 10px 20px;
+            background: var(--secondary-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .news-item {
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .news-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .news-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+        }
+
+        .news-category {
+            background: var(--primary-blue);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-weight: 600;
+        }
+
+        .news-date {
+            color: var(--text-gray);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .news-title {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .news-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .news-title a:hover {
+            color: var(--secondary-blue);
+        }
+
+        .news-source {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .news-excerpt {
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .read-more {
+            color: var(--secondary-blue);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            gap: 8px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-weight: 700;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .topic-tag {
+            display: inline-block;
+            padding: 8px 15px;
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .topic-tag:hover {
+            background: var(--secondary-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .source-list {
+            list-style: none;
+        }
+
+        .source-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--secondary-blue);
+            background: var(--hover-bg);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .source-item:hover {
+            background: var(--light-blue);
+            transform: translateX(5px);
+        }
+
+        .source-name {
+            font-weight: 600;
+            color: var(--primary-blue);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .source-desc {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .source-link {
+            color: var(--secondary-blue);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Quick Links */
+        .quick-links {
+            display: grid;
+            gap: 10px;
+        }
+
+        .quick-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: var(--hover-bg);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .quick-link:hover {
+            background: var(--light-blue);
+            border-left-color: var(--secondary-blue);
+            transform: translateX(5px);
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue));
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-gray);
+        }
+
+        .spinner {
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--secondary-blue);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-gray);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .category-filters {
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Utility Classes */
+        .mt-1 { margin-top: 10px; }
+        .mt-2 { margin-top: 20px; }
+        .mb-1 { margin-bottom: 10px; }
+        .mb-2 { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="header-left">
+                    <h1>
+                        <span class="flag-icons">🇳🇱 🇪🇺</span>
+                        Dutch & EU Data Sovereignty News Hub
+                    </h1>
+                    <p class="subtitle">Real-time updates on digital sovereignty, data protection, and cybersecurity</p>
+                </div>
+                <div class="last-updated">
+                    <strong>📅 Last Updated:</strong> <span id="lastUpdateTime">Loading...</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="controls">
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    id="searchInput"
+                    placeholder="Search news by keyword, topic, or source..."
+                    aria-label="Search news"
+                >
+                <span class="search-icon">🔍</span>
+            </div>
+
+            <div class="filter-section">
+                <label class="filter-label">Filter by Category:</label>
+                <div class="category-filters" id="categoryFilters">
+                    <button class="category-btn active" data-category="all">All Topics</button>
+                    <button class="category-btn" data-category="regulations">Regulations</button>
+                    <button class="category-btn" data-category="infrastructure">Cloud & Infrastructure</button>
+                    <button class="category-btn" data-category="cybersecurity">Cybersecurity</button>
+                    <button class="category-btn" data-category="policy">Policy & Strategy</button>
+                    <button class="category-btn" data-category="industry">Industry News</button>
+                    <button class="category-btn" data-category="cases">Key Cases</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <main class="news-feed">
+                <div class="feed-header">
+                    <h2 class="feed-title">Latest Publications</h2>
+                    <button class="refresh-btn" id="refreshBtn">
+                        🔄 Refresh Feed
+                    </button>
+                </div>
+                <div id="newsFeed">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading latest news...</p>
+                    </div>
+                </div>
+            </main>
+
+            <aside class="sidebar">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">📊 Coverage Stats</h3>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <span class="stat-value" id="statSources">24</span>
+                            <span class="stat-label">News Sources</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-value" id="statCategories">6</span>
+                            <span class="stat-label">Categories</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-value" id="statTopics">10</span>
+                            <span class="stat-label">Key Topics</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-value" id="statArticles">45</span>
+                            <span class="stat-label">Recent Articles</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">🔥 Hot Topics</h3>
+                    <div id="hotTopics">
+                        <span class="topic-tag">NIS2 Implementation</span>
+                        <span class="topic-tag">DigiD Sovereignty</span>
+                        <span class="topic-tag">GAIA-X</span>
+                        <span class="topic-tag">CLOUD Act</span>
+                        <span class="topic-tag">Data Act</span>
+                        <span class="topic-tag">GDPR Enforcement</span>
+                        <span class="topic-tag">Sovereign Cloud</span>
+                        <span class="topic-tag">EU-US Data Flows</span>
+                        <span class="topic-tag">Cybersecurity</span>
+                        <span class="topic-tag">Digital Omnibus</span>
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">🔗 Quick Access</h3>
+                    <div class="quick-links">
+                        <a href="https://digital-strategy.ec.europa.eu/en" target="_blank" class="quick-link">
+                            <span>🇪🇺 EU Digital Strategy</span>
+                            <span>→</span>
+                        </a>
+                        <a href="https://www.ncsc.nl" target="_blank" class="quick-link">
+                            <span>🛡️ NCSC Netherlands</span>
+                            <span>→</span>
+                        </a>
+                        <a href="https://gaia-x.eu" target="_blank" class="quick-link">
+                            <span>☁️ GAIA-X</span>
+                            <span>→</span>
+                        </a>
+                        <a href="https://edpb.europa.eu" target="_blank" class="quick-link">
+                            <span>📋 EDPB</span>
+                            <span>→</span>
+                        </a>
+                        <a href="https://www.tno.nl/en/digital" target="_blank" class="quick-link">
+                            <span>🔬 TNO Digital</span>
+                            <span>→</span>
+                        </a>
+                        <a href="https://securitydelta.nl" target="_blank" class="quick-link">
+                            <span>🔐 Security Delta</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">📰 Featured Sources</h3>
+                    <ul class="source-list" id="featuredSources">
+                        <li class="source-item">
+                            <span class="source-name">European Commission</span>
+                            <p class="source-desc">Official EU digital policy and data strategy</p>
+                            <a href="https://digital-strategy.ec.europa.eu/en" target="_blank" class="source-link">Visit →</a>
+                        </li>
+                        <li class="source-item">
+                            <span class="source-name">Dutch Gov Business</span>
+                            <p class="source-desc">NIS2 and Dutch implementation updates</p>
+                            <a href="https://business.gov.nl" target="_blank" class="source-link">Visit →</a>
+                        </li>
+                        <li class="source-item">
+                            <span class="source-name">Clingendael Institute</span>
+                            <p class="source-desc">Dutch think tank on digital sovereignty</p>
+                            <a href="https://www.clingendael.org" target="_blank" class="source-link">Visit →</a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        // Mock news data based on research
+        const mockNewsData = [
+            {
+                title: "Netherlands Faces Rising Digital Sovereignty Threat, Data Authority Warns",
+                category: "policy",
+                date: "2026-01-29",
+                source: "Dig.watch",
+                url: "https://dig.watch/updates/netherlands-faces-digital-sovereignty-threat",
+                excerpt: "The Dutch data protection authority has urged the government to act swiftly to protect the country's digital sovereignty, warning that dependence on overseas technology firms could expose vital public services to significant risk."
+            },
+            {
+                title: "Digital Sovereignty in 2026: How EU Data Residency Laws Are Driving Self-Hosting",
+                category: "regulations",
+                date: "2026-01-27",
+                source: "Elest.io Blog",
+                url: "https://blog.elest.io/digital-sovereignty-in-2026",
+                excerpt: "The EU's regulatory framework around data sovereignty reached critical mass in 2026. The NIS2 Directive, which went into full effect this year, requires organizations to implement robust cybersecurity measures."
+            },
+            {
+                title: "Three Predictions for Sovereign Cloud in 2026",
+                category: "infrastructure",
+                date: "2026-01-28",
+                source: "Broadcom Inc.",
+                url: "https://news.broadcom.com/sovereign-cloud",
+                excerpt: "European cloud providers, like T-Systems and OVHcloud, have partnered with Broadcom to offer VMware software stack running on European-owned infrastructure."
+            },
+            {
+                title: "US Bid for Dutch ID Infrastructure Raises Sovereignty Concerns",
+                category: "cases",
+                date: "2026-02-08",
+                source: "Computer Weekly",
+                url: "https://www.computerweekly.com/news/366638606",
+                excerpt: "When US IT giant Kyndryl announced its proposed acquisition of Solvinity in November 2025, few outside the Netherlands paid much attention. But in the country itself, the news prompted concern."
+            },
+            {
+                title: "New Dutch Coalition Agreement Positions Digitalisation as Strategic Pillar",
+                category: "policy",
+                date: "2026-01-29",
+                source: "Security Delta (HSD)",
+                url: "https://securitydelta.nl/news",
+                excerpt: "The agreement explicitly states that the Netherlands and Europe have become too dependent on a small number of foreign technology providers. This dependency increases vulnerability."
+            },
+            {
+                title: "Digital Sovereignty 2026: How the EU Is Reshaping Meta",
+                category: "regulations",
+                date: "2026-01-07",
+                source: "HeyData",
+                url: "https://heydata.eu/en/magazine/digital-sovereignty-meta-eu-data-sovereignty-2026",
+                excerpt: "GDPR, DMA and DSA are fundamentally changing Meta's business model. The pay-or-consent model has largely failed — privacy cannot be treated as a luxury."
+            },
+            {
+                title: "New Blueprint Helps Organisations Share Data Reliably",
+                category: "infrastructure",
+                date: "2026-02-09",
+                source: "TNO",
+                url: "https://www.tno.nl/en/newsroom/2026/02",
+                excerpt: "TNO and European partners within the Data Spaces Support Centre have developed a standardised approach consisting of a blueprint and toolbox for creating data-exchange platforms."
+            },
+            {
+                title: "The Issues Surrounding Digital Sovereignty in 2026",
+                category: "policy",
+                date: "2026-01-18",
+                source: "Netaxis",
+                url: "https://www.netaxis.be/2026/01/19",
+                excerpt: "Digital sovereignty has become a defining strategic issue for Europe. By 2026, control over data, compute capacity, and digital infrastructure increasingly shapes economic competitiveness."
+            },
+            {
+                title: "Digital Sovereignty in Europe: What Still Lies Ahead",
+                category: "policy",
+                date: "2026-01-12",
+                source: "Nextcloud Blog",
+                url: "https://nextcloud.com/blog/digital-sovereignty-in-europe",
+                excerpt: "Digital sovereignty is no longer theoretical. Europe sees momentum, but real independence depends on procurement and political will."
+            },
+            {
+                title: "Europe Going All-In on Sovereign Cloud Investment",
+                category: "industry",
+                date: "2026-02-10",
+                source: "Yahoo Finance",
+                url: "https://finance.yahoo.com/news",
+                excerpt: "European governments, regulated industries and critical services are all doubling down on anti-hyperscaler, pro-sovereignty changes. Europe is expected to surpass North America as early as 2027."
+            },
+            {
+                title: "Dutch Public and Private Sectors Dependent on US Cloud Services",
+                category: "cases",
+                date: "2026-01-25",
+                source: "Dutch News",
+                url: "https://www.dutchnews.nl/2026/01",
+                excerpt: "The Netherlands has become heavily dependent on American tech companies, with two-thirds of key public and private services relying on US cloud providers."
+            },
+            {
+                title: "Data Sovereignty Goes Beyond Geography – About Privacy, Control and Trust",
+                category: "policy",
+                date: "2026-02-09",
+                source: "Consultancy.eu",
+                url: "https://www.consultancy.eu/news/13168",
+                excerpt: "Cloud sovereignty is firmly on the agenda of European organizations and governments. The CLOUD Act creates a tension between compliance with GDPR and exposure to foreign access requests."
+            },
+            {
+                title: "What to Watch in 2026: Key EU Privacy & Cybersecurity Developments",
+                category: "regulations",
+                date: "2026-01-27",
+                source: "Inside Privacy",
+                url: "https://www.insideprivacy.com",
+                excerpt: "Multiple Member States are expected to complete the transposition of the NIS2 Directive this year. The European Commission is advancing the Digital Omnibus Package."
+            },
+            {
+                title: "Netherlands Late with NIS2 Implementation",
+                category: "cybersecurity",
+                date: "2025-08-13",
+                source: "Privacy Web",
+                url: "https://privacy-web.nl/en/nieuws",
+                excerpt: "The Netherlands, along with seven other EU member states, is behind in transposing the European NIS2 directive into national law. The law is unlikely to take effect until spring 2026."
+            },
+            {
+                title: "Office EU Promises to Protect European Companies from US Data Sovereignty Threat",
+                category: "industry",
+                date: "2025-10-21",
+                source: "Stories of Purpose",
+                url: "https://storiesofpurpose.thehague.com",
+                excerpt: "Office EU launches a fully European Office Suite to create European Data sovereignty and an European alternative for Microsoft Office and Google Workspace."
+            }
+        ];
+
+        // State management
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLastUpdateTime();
+            renderNews();
+            setupEventListeners();
+            updateStats();
+        });
+
+        function updateLastUpdateTime() {
+            const now = new Date();
+            const formatted = now.toLocaleString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            document.getElementById('lastUpdateTime').textContent = formatted;
+        }
+
+        function setupEventListeners() {
+            // Category filters
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.category;
+                    renderNews();
+                });
+            });
+
+            // Search
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                currentSearch = e.target.value.toLowerCase();
+                renderNews();
+            });
+
+            // Refresh button
+            document.getElementById('refreshBtn').addEventListener('click', function() {
+                this.innerHTML = '⟳ Refreshing...';
+                setTimeout(() => {
+                    updateLastUpdateTime();
+                    renderNews();
+                    this.innerHTML = '🔄 Refresh Feed';
+                }, 1000);
+            });
+
+            // Topic tags
+            document.querySelectorAll('.topic-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    document.getElementById('searchInput').value = this.textContent;
+                    currentSearch = this.textContent.toLowerCase();
+                    renderNews();
+                });
+            });
+        }
+
+        function filterNews() {
+            return mockNewsData.filter(item => {
+                const matchesCategory = currentFilter === 'all' || item.category === currentFilter;
+                const matchesSearch = !currentSearch || 
+                    item.title.toLowerCase().includes(currentSearch) ||
+                    item.excerpt.toLowerCase().includes(currentSearch) ||
+                    item.source.toLowerCase().includes(currentSearch);
+                return matchesCategory && matchesSearch;
+            });
+        }
+
+        function renderNews() {
+            const filtered = filterNews();
+            const feedContainer = document.getElementById('newsFeed');
+
+            if (filtered.length === 0) {
+                feedContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📭</div>
+                        <h3>No articles found</h3>
+                        <p>Try adjusting your filters or search terms</p>
+                    </div>
+                `;
+                return;
+            }
+
+            feedContainer.innerHTML = filtered.map(item => `
+                <article class="news-item">
+                    <div class="news-meta">
+                        <span class="news-category">${getCategoryLabel(item.category)}</span>
+                        <span class="news-date">📅 ${formatDate(item.date)}</span>
+                    </div>
+                    <h3 class="news-title">
+                        <a href="${item.url}" target="_blank">${item.title}</a>
+                    </h3>
+                    <div class="news-source">Source: ${item.source}</div>
+                    <p class="news-excerpt">${item.excerpt}</p>
+                    <a href="${item.url}" target="_blank" class="read-more">
+                        Read full article →
+                    </a>
+                </article>
+            `).join('');
+        }
+
+        function getCategoryLabel(category) {
+            const labels = {
+                'regulations': 'Regulations',
+                'infrastructure': 'Infrastructure',
+                'cybersecurity': 'Cybersecurity',
+                'policy': 'Policy',
+                'industry': 'Industry',
+                'cases': 'Key Cases'
+            };
+            return labels[category] || 'News';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+
+            if (diffDays === 0) return 'Today';
+            if (diffDays === 1) return 'Yesterday';
+            if (diffDays < 7) return `${diffDays} days ago`;
+
+            return date.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+
+        function updateStats() {
+            document.getElementById('statArticles').textContent = mockNewsData.length;
+        }
+
+        // Auto-refresh every 5 minutes
+        setInterval(() => {
+            updateLastUpdateTime();
+            renderNews();
+        }, 300000);
+    </script>
+</body>
+</html>
